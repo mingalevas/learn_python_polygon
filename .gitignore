@@ -1,0 +1,13 @@
+### general ###
+.idea/
+__pycache__/
+*.log
+
+
+### django_main ###
+*.pot
+*.pyc
+local_settings.py
+db.sqlite3
+media
+django_main/venv_django_main/*

@@ -1,0 +1,4 @@
+/venv_django_main
+Dockerfile
+.dockerignore
+db.sqlite3

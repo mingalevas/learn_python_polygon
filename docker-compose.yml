@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  django_main:
+    build:
+      context: ./django_main/
+      dockerfile: Dockerfile
+    container_name: django_main
+    volumes:
+      - ./django_main/db.sqlite3:/app/db.sqlite3
+    networks:
+      - subproject_network
+      - general_network
+
+    ports:
+      - "8001:8000"
+
+  subproject_calculator:
+    build:
+      context: ./subprojects/calculator
+      dockerfile: Dockerfile
+    container_name: subproject_calculator
+    networks:
+      - subproject_network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    restart: unless-stopped
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - django_main
+    networks:
+      - general_network
+
+networks:
+  subproject_network:
+    driver: bridge
+  general_network:
+    driver: bridge
